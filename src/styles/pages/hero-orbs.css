@@ -1,0 +1,305 @@
+/* =====================================================================
+   HERO ORBS - abstract 3D-looking floating blobs (Hero section only)
+   ---------------------------------------------------------------------
+   Used by components/landing/HeroOrbs.jsx. Every selector starts with
+   .hero-orb / .hero-orbs, so nothing here can leak into other sections
+   or pages. Colours are the existing CampusCode palette only:
+   purple #7a64f5 / #9277ff and lime #b4f31d / #86bd19 (plus tints and
+   shades of them).
+
+   LAYER STRUCTURE (each layer owns ONE kind of motion, so the
+   animations never fight over the same property):
+
+     .hero-orb            position + size + entrance fade (Framer Motion)
+       .hero-orb__float   slow drift across the hero          (translate)
+         .hero-orb__body  shape morph + gentle 3D tumble      (border-radius, transform)
+           .hero-orb__sheen   glossy highlight, drifts independently
+
+   WHY IT READS AS 3D
+   - off-centre radial gradients = a light source at the top-left
+   - a darker core/edge on the opposite side = volume
+   - a faint bounce light in the *other* brand colour at the bottom-right
+     (lime on purple, purple on lime) = a reflective surface
+   - a white sheen + a diagonal gloss band = glossy highlights
+   - perspective() tilt in the tumble keyframes = the blob turns in space
+   ===================================================================== */
+
+/* Container: fills the hero background, never catches clicks. */
+.hero-orbs {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+/* ---------------------------------------------------------------------
+   ORB BASE
+   Per-orb knobs (set further below):
+     --orb          diameter (fluid: scales with the viewport)
+     --ratio        height / width, so shapes are not perfect circles
+     --float-x/y    how far the orb drifts
+     --float-dur    drift duration        (different per orb = never in sync)
+     --morph-dur    shape-change duration
+     --tumble-dur   tilt/rotation duration
+     --tilt-x/y     3D tilt amount, --spin = in-plane rotation
+     --phase        negative delay: each orb starts at a different moment
+--------------------------------------------------------------------- */
+.hero-orb {
+    position: absolute;
+    width: var(--orb);
+    height: calc(var(--orb) * var(--ratio, 1));
+}
+
+.hero-orb__float {
+    width: 100%;
+    height: 100%;
+    animation: hero-orb-float var(--float-dur) ease-in-out var(--phase) infinite alternate;
+    will-change: transform;
+}
+
+.hero-orb__body {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;                 /* keeps the highlights inside the morphing shape */
+    border-radius: 58% 42% 54% 46% / 52% 58% 42% 48%;
+    animation:
+        var(--morph-name, hero-orb-morph) var(--morph-dur) ease-in-out var(--phase) infinite alternate,
+        hero-orb-tumble var(--tumble-dur) ease-in-out var(--phase) infinite alternate;
+    will-change: transform;
+}
+
+/* Diagonal gloss band - a soft "window reflection" across the surface. */
+.hero-orb__body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        125deg,
+        rgba(255, 255, 255, 0) 40%,
+        rgba(255, 255, 255, 0.14) 47%,
+        rgba(255, 255, 255, 0) 57%
+    );
+}
+
+/* Specular highlight (the bright spot where the light hits). */
+.hero-orb__sheen {
+    position: absolute;
+    top: 9%;
+    left: 15%;
+    width: 36%;
+    height: 21%;
+    border-radius: 50%;
+    background: radial-gradient(
+        ellipse at 42% 42%,
+        rgba(255, 255, 255, 0.92) 0%,
+        rgba(255, 255, 255, 0.38) 42%,
+        rgba(255, 255, 255, 0) 74%
+    );
+    transform: rotate(-32deg);
+    animation: hero-orb-sheen var(--tumble-dur) ease-in-out var(--phase) infinite alternate;
+}
+
+/* ---------------------------------------------------------------------
+   COLOUR TONES (all derived from the brand purple / lime)
+   Shading uses gradients + a few em-free shadows scaled by --orb, so a
+   small orb gets small shadows and a big orb gets big ones.
+--------------------------------------------------------------------- */
+.hero-orb--purple .hero-orb__body {
+    background:
+        radial-gradient(circle at 78% 88%, rgba(180, 243, 29, 0.26), rgba(180, 243, 29, 0) 42%),
+        radial-gradient(circle at 36% 32%, #c4b8ff 0%, #9277ff 36%, #7a64f5 62%, #4a3aa6 100%);
+    box-shadow:
+        inset calc(var(--orb) * -0.06) calc(var(--orb) * -0.09) calc(var(--orb) * 0.16) rgba(52, 34, 140, 0.38),
+        inset calc(var(--orb) * 0.04) calc(var(--orb) * 0.05) calc(var(--orb) * 0.1) rgba(255, 255, 255, 0.26),
+        0 calc(var(--orb) * 0.1) calc(var(--orb) * 0.22) calc(var(--orb) * -0.06) rgba(122, 100, 245, 0.34);
+}
+
+.hero-orb--lavender .hero-orb__body {
+    background:
+        radial-gradient(circle at 78% 88%, rgba(180, 243, 29, 0.2), rgba(180, 243, 29, 0) 42%),
+        radial-gradient(circle at 36% 32%, #efeaff 0%, #c9bfff 38%, #9277ff 78%, #6a55d8 100%);
+    box-shadow:
+        inset calc(var(--orb) * -0.06) calc(var(--orb) * -0.09) calc(var(--orb) * 0.16) rgba(80, 60, 190, 0.3),
+        0 calc(var(--orb) * 0.1) calc(var(--orb) * 0.22) calc(var(--orb) * -0.06) rgba(122, 100, 245, 0.28);
+}
+
+.hero-orb--lime .hero-orb__body {
+    background:
+        radial-gradient(circle at 78% 88%, rgba(122, 100, 245, 0.28), rgba(122, 100, 245, 0) 44%),
+        radial-gradient(circle at 36% 32%, #e6fca0 0%, #b4f31d 42%, #8fc41a 74%, #5f8c10 100%);
+    box-shadow:
+        inset calc(var(--orb) * -0.06) calc(var(--orb) * -0.09) calc(var(--orb) * 0.16) rgba(70, 105, 8, 0.34),
+        inset calc(var(--orb) * 0.04) calc(var(--orb) * 0.05) calc(var(--orb) * 0.1) rgba(255, 255, 255, 0.3),
+        0 calc(var(--orb) * 0.1) calc(var(--orb) * 0.22) calc(var(--orb) * -0.06) rgba(134, 189, 25, 0.34);
+}
+
+/* "Dual": a lavender body that catches a clean wash of lime - the in-between shade.
+   No dark inner shadow here: dark purple + lime would turn muddy grey-green. */
+.hero-orb--dual .hero-orb__body {
+    background:
+        radial-gradient(circle at 70% 82%, rgba(180, 243, 29, 0.85), rgba(180, 243, 29, 0) 62%),
+        radial-gradient(circle at 36% 32%, #e2dbff 0%, #b3a5ff 42%, #8f7bff 80%, #7a64f5 100%);
+    box-shadow:
+        inset calc(var(--orb) * 0.04) calc(var(--orb) * 0.05) calc(var(--orb) * 0.1) rgba(255, 255, 255, 0.24),
+        0 calc(var(--orb) * 0.1) calc(var(--orb) * 0.22) calc(var(--orb) * -0.06) rgba(122, 100, 245, 0.26);
+}
+
+/* ---------------------------------------------------------------------
+   COMPOSITION (desktop first)
+   Big purple orb on the right, medium lime orb lower-centre-right, a
+   cropped orb at the edge, and two small ones for depth. The left side
+   is left almost free so the BUILD. COMPETE. SHIP. heading stays clean.
+--------------------------------------------------------------------- */
+.hero-orb--a {
+    --orb: clamp(240px, 28vw, 440px);
+    --ratio: 1.06;
+    right: 2%;
+    top: 15%;
+    --float-x: 26px;  --float-y: -34px;
+    --float-dur: 26s; --morph-dur: 21s; --tumble-dur: 33s;
+    --tilt-x: 10deg;  --tilt-y: -14deg; --spin: 12deg;
+    --phase: 0s;
+}
+
+.hero-orb--b {
+    --orb: clamp(150px, 15vw, 240px);
+    --ratio: 0.94;
+    right: 27%;
+    bottom: 8%;
+    --float-x: -32px; --float-y: 24px;
+    --float-dur: 21s; --morph-dur: 17s; --tumble-dur: 27s;
+    --morph-name: hero-orb-morph-alt;
+    --tilt-x: -12deg; --tilt-y: 15deg; --spin: -16deg;
+    --phase: -9s;
+}
+
+.hero-orb--c {
+    --orb: clamp(56px, 6.5vw, 100px);
+    left: 60%;
+    top: 7%;
+    --float-x: 18px;  --float-y: 26px;
+    --float-dur: 17s; --morph-dur: 19s; --tumble-dur: 23s;
+    --tilt-x: 16deg;  --tilt-y: 10deg;  --spin: 20deg;
+    --phase: -5s;
+}
+
+.hero-orb--d {
+    --orb: clamp(40px, 4.5vw, 72px);
+    right: 13.5%;
+    top: 62%;
+    --float-x: -14px; --float-y: -22px;
+    --float-dur: 15s; --morph-dur: 23s; --tumble-dur: 19s;
+    --morph-name: hero-orb-morph-alt;
+    --tilt-x: -10deg; --tilt-y: -12deg; --spin: -22deg;
+    --phase: -11s;
+}
+
+.hero-orb--e {
+    --orb: clamp(120px, 12vw, 190px);
+    --ratio: 1.08;
+    right: -2.5%;                       /* deliberately cropped by the edge for depth */
+    bottom: 3%;
+    --float-x: -22px; --float-y: -28px;
+    --float-dur: 29s; --morph-dur: 25s; --tumble-dur: 37s;
+    --tilt-x: 12deg;  --tilt-y: 12deg;  --spin: 10deg;
+    --phase: -14s;
+}
+
+/* ---------------------------------------------------------------------
+   KEYFRAMES
+   alternate + ease-in-out makes every cycle play forward then back, so
+   there is never a visible "jump" at the loop point.
+--------------------------------------------------------------------- */
+
+/* Slow meandering drift: four waypoints per half-cycle, never a straight line. */
+@keyframes hero-orb-float {
+    0%   { transform: translate3d(0, 0, 0); }
+    35%  { transform: translate3d(var(--float-x), calc(var(--float-y) * 0.4), 0); }
+    70%  { transform: translate3d(calc(var(--float-x) * 0.35), var(--float-y), 0); }
+    100% { transform: translate3d(calc(var(--float-x) * -0.6), calc(var(--float-y) * 0.55), 0); }
+}
+
+/* Organic shape change. Values stay near 50% so the form stays a soft blob,
+   but each stop is a different irregular outline. Two sequences exist so
+   that not every orb passes through the same shapes. */
+@keyframes hero-orb-morph {
+    0%   { border-radius: 58% 42% 54% 46% / 52% 58% 42% 48%; }
+    33%  { border-radius: 44% 56% 41% 59% / 60% 44% 56% 40%; }
+    66%  { border-radius: 52% 48% 62% 38% / 42% 54% 46% 58%; }
+    100% { border-radius: 40% 60% 48% 52% / 56% 40% 60% 44%; }
+}
+
+@keyframes hero-orb-morph-alt {
+    0%   { border-radius: 46% 54% 40% 60% / 58% 46% 54% 42%; }
+    33%  { border-radius: 60% 40% 52% 48% / 44% 58% 42% 56%; }
+    66%  { border-radius: 42% 58% 58% 42% / 54% 40% 60% 46%; }
+    100% { border-radius: 56% 44% 46% 54% / 48% 56% 44% 52%; }
+}
+
+/* Gentle turning in 3D: a small tilt on both axes, a little spin and a
+   barely-there breathing scale. perspective() makes the tilt look real. */
+@keyframes hero-orb-tumble {
+    0%   { transform: perspective(900px) rotateX(0deg) rotateY(0deg) rotate(0deg) scale(1); }
+    50%  { transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) rotate(var(--spin)) scale(1.05); }
+    100% { transform: perspective(900px) rotateX(calc(var(--tilt-x) * -0.7)) rotateY(calc(var(--tilt-y) * -0.6)) rotate(calc(var(--spin) * -0.6)) scale(0.96); }
+}
+
+/* The highlight drifts a little on its own, like light sliding over a curved surface. */
+@keyframes hero-orb-sheen {
+    0%   { transform: translate(0, 0) rotate(-32deg); opacity: 0.92; }
+    100% { transform: translate(9%, 7%) rotate(-22deg); opacity: 0.66; }
+}
+
+/* ---------------------------------------------------------------------
+   PERFORMANCE: HeroOrbs.jsx adds .is-paused while the hero is scrolled
+   out of view, so the blobs cost nothing once you are further down.
+--------------------------------------------------------------------- */
+.hero-orbs.is-paused .hero-orb__float,
+.hero-orbs.is-paused .hero-orb__body,
+.hero-orbs.is-paused .hero-orb__sheen {
+    animation-play-state: paused;
+}
+
+/* ---------------------------------------------------------------------
+   RESPONSIVE - fewer, smaller, calmer orbs so text always stays readable
+--------------------------------------------------------------------- */
+@media (max-width: 900px) {
+    .hero-orbs {
+        opacity: 0.62;
+    }
+
+    .hero-orb--a {
+        --orb: clamp(200px, 50vw, 320px);
+        right: -14%;
+        top: 8%;
+    }
+
+    .hero-orb--b {
+        --orb: clamp(110px, 26vw, 170px);
+        right: 4%;
+        bottom: 3%;
+    }
+
+    .hero-orb--e {
+        --orb: clamp(90px, 20vw, 140px);
+        right: auto;
+        left: -6%;
+        bottom: 22%;
+    }
+
+    .hero-orb--c,
+    .hero-orb--d {
+        display: none;
+    }
+}
+
+/* ---------------------------------------------------------------------
+   REDUCED MOTION - keep the (static) composition, drop all movement.
+--------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    .hero-orb__float,
+    .hero-orb__body,
+    .hero-orb__sheen {
+        animation: none;
+    }
+}

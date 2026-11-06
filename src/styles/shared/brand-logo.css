@@ -1,0 +1,92 @@
+/* Shared CampusCode header symbol (from the original Dashboard landing page).
+   Used by <BrandLogo /> on Dashboard, Register and Login. Rules are unchanged. */
+
+/* ================= LOGO ================= */
+
+.landing-logo {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 9px;
+
+    width: 154px;
+    height: 43px;
+
+    padding: 4px 7px;
+
+    border: 2px solid #777;
+    border-radius: 2px;
+
+    text-decoration: none;
+    color: #111;
+
+    flex-shrink: 0;
+}
+
+
+/* Logo Symbol */
+
+.landing-logo-mark {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    height: 25px;
+}
+
+
+/* Three Logo Stripes */
+
+.landing-logo-mark span {
+    display: block;
+
+    width: 8px;
+    height: 25px;
+
+    transform: skew(-17deg);
+
+    background: #111;
+}
+
+.landing-logo-mark span:nth-child(2) {
+    background: #8972ff;
+}
+
+.landing-logo-mark span:nth-child(3) {
+    background: #83bd19;
+}
+
+
+/* Logo Text Container */
+
+.landing-logo-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    gap: 2px;
+}
+
+
+/* CampusCode Text */
+
+.landing-logo-text {
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 0.09em;
+    line-height: 1;
+}
+
+
+/* Hackathon Arena Text */
+
+.landing-logo-subtext {
+    font-size: 7px;
+    font-weight: 500;
+
+    letter-spacing: 0.13em;
+    text-align: center;
+
+    color: #777;
+}

@@ -1,0 +1,260 @@
+/* =====================================================
+   CAMPUSCODE LOGIN PAGE
+   Shared typography, colours, grid, card and field
+   measurements are inherited from the existing style.css.
+   Only login-specific layout and components are defined here.
+===================================================== */
+
+
+.login-hero__title {
+    margin-top: 46px;
+}
+
+.login-hero__accent {
+    color: var(--color-purple);
+    -webkit-text-stroke: 0;
+}
+
+.login-hero__accent:hover {
+    color: transparent;
+    -webkit-text-stroke-color: #777;
+}
+
+.login-feature-cards .feature-card {
+    min-height: 103px;
+    padding: 18px 16px;
+}
+
+.login-feature-cards .feature-card__title {
+    margin-top: 28px;
+    font-size: 17px;
+}
+
+
+.login-card .register-card__head {
+    margin-bottom: 24px;
+}
+
+.login-form .field {
+    margin-bottom: 13px;
+}
+
+.login-form .field__control {
+    height: 61px;
+    margin-bottom: 0;
+}
+
+.login-form .field__label {
+    margin-bottom: 8px;
+}
+
+.login-form .field__icon {
+    width: 56px;
+    padding-left: 24px;
+}
+
+.login-form .field__input {
+    font-size: 15px;
+}
+
+.login-form .show-btn {
+    height: 30px;
+    gap: 8px;
+    margin-right: 12px;
+    padding: 8px 10px;
+    background: transparent;
+    border: 0;
+    color: #777;
+    font-size: 9px;
+}
+
+.login-form .show-btn__ring {
+    width: 5px;
+    height: 5px;
+}
+
+.login-captcha-field {
+    margin-top: 3px;
+}
+
+.login-captcha-field .captcha {
+    gap: 18px;
+    margin-bottom: 8px;
+}
+
+.login-captcha-image {
+    width: 169px;
+    height: 59px;
+}
+
+.login-captcha-field .captcha__new {
+    font-size: 10px;
+    color: #888;
+}
+
+.login-captcha-input .field__input {
+    padding-left: 0;
+}
+
+.login-security {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 73px;
+    margin: 23px 0 5px;
+    padding: 9px 13px;
+    border: 1px dashed #d9dccb;
+    border-radius: 14px;
+    background: rgba(250, 250, 247, 0.72);
+}
+
+.login-truck {
+    display: block;
+    width: 84px;
+    height: 40px;
+}
+
+.login-truck svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.login-security__sleep {
+    align-self: flex-start;
+    margin: 0 0 0 5px;
+    color: #999;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+}
+
+.login-security__status {
+    margin-left: auto;
+    margin-right: 3px;
+    color: #555;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+}
+
+.login-security__bar {
+    width: 4px;
+    height: 35px;
+    margin-left: 8px;
+    border-radius: 4px;
+    background: var(--color-lime);
+}
+
+.login-submit {
+    width: 100%;
+    height: 65px;
+    margin: 5px 0 0;
+    padding: 3px 22px;
+}
+
+.login-submit .submit-btn__label {
+    text-align: left;
+    padding-left: 0;
+    font-size: 13px;
+}
+
+.login-submit .submit-btn__arrow {
+    width: auto;
+    font-size: 17px;
+}
+
+.login-card__bottom {
+    padding: 20px 11px 2px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    color: var(--color-muted);
+}
+
+.login-card__bottom a:hover {
+    color: var(--color-purple-dark);
+    text-decoration: underline;
+}
+
+/* =========================================
+   LOGIN BUS ANIMATION
+========================================= */
+
+.login-security {
+    position: relative;
+    overflow: hidden;
+    min-height: 80px;
+}
+
+/* Bus starting position */
+.login-truck {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    width: 94px;
+    height: 42px;
+}
+
+/* Finish line */
+.login-security__bar {
+    position: absolute;
+    right: 12px;
+    top: 20px;
+    height: 42px;
+    width: 5px;
+    background: var(--color-lime);
+    border-radius: 5px;
+}
+
+/* Status text */
+.login-security__status {
+    position: absolute;
+    right: 28px;
+    top: 10px;
+    margin: 0;
+}
+
+/* Hide sleep text */
+.login-security__sleep {
+    display: none;
+}
+
+/* Bus movement */
+.login-security.is-riding .login-truck {
+    animation: busRide 2s cubic-bezier(0.45, 0, 0.55, 1) forwards;
+}
+
+@keyframes busRide {
+    0% {
+        left: 10px;
+    }
+
+    100% {
+        left: calc(100% - 110px);
+    }
+}
+
+/* Button loading state */
+.login-submit:disabled {
+    opacity: 0.75;
+    cursor: not-allowed;
+    transform: none;
+}
+
+
+@media (max-width: 600px) {
+    .login-form .field__control {
+        height: 52px;
+    }
+
+    .login-security {
+        margin-top: 18px;
+    }
+
+    .login-submit {
+        height: 56px;
+    }
+}

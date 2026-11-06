@@ -1,0 +1,189 @@
+/* =====================================================================
+   CAMPUSCODE - ANIMATION LAYER
+   ---------------------------------------------------------------------
+   Loaded ONCE for the whole site (imported in main.jsx). It only adds motion:
+   no colours, sizes, fonts or layouts of the existing design are changed.
+
+   Why selectors start with "body ": the page stylesheets are injected per page
+   (see hooks/usePageStyles.js) and would otherwise win ties. The extra element
+   in the selector lets these animation rules apply without !important.
+   Every rule below touches ONLY `translate`, `transition` or animation properties.
+   ===================================================================== */
+
+:root {
+    --motion-ease: cubic-bezier(0.22, 0.61, 0.36, 1);   /* soft "premium" ease-out */
+    --motion-lift: -2px;                                 /* hover lift for buttons   */
+}
+
+/* ---------------------------------------------------------------------
+   1. CURSOR GLOW (element is rendered by components/motion/CursorGlow.jsx)
+--------------------------------------------------------------------- */
+.cursor-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    width: 300px;                 /* keep in sync with GLOW_SIZE in CursorGlow.jsx */
+    height: 300px;
+    border-radius: 50%;
+    pointer-events: none;         /* never blocks clicks, hovers, selection or inputs */
+   background: radial-gradient(
+        circle,
+        rgba(146, 119, 255, 0.08) 0%,
+        rgba(146, 119, 255, 0.035) 40%,
+        transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 0.4s var(--motion-ease);
+    will-change: transform, opacity;
+}
+
+.cursor-glow--visible {
+    opacity: 1;
+}
+
+/* ---------------------------------------------------------------------
+   2. HOVER LIFT for interactive elements only
+   Uses the independent `translate` property, so it never clashes with the
+   `transform` hovers that some elements (feature cards, submit button) already have.
+   The `transition` lists keep each element's ORIGINAL transition and just add `translate`.
+--------------------------------------------------------------------- */
+
+/* Landing page */
+body .login-btn,
+body .nav-links a {
+    transition: color 0.3s ease, translate 0.35s var(--motion-ease);
+}
+body .hero-cta {
+    transition: background 0.3s ease, color 0.3s ease, translate 0.35s var(--motion-ease);
+}
+body .arena-view-all {
+    transition: color 0.3s ease, translate 0.35s var(--motion-ease);
+}
+/* .get-started-btn and .final-cta-button already use "transition: all", which includes translate */
+
+/* Register / Login */
+body .site-nav__link {
+    transition: color 0.25s var(--motion-ease), translate 0.35s var(--motion-ease);
+}
+body .show-btn {
+    transition: background 0.2s var(--motion-ease), border-color 0.2s var(--motion-ease),
+        translate 0.35s var(--motion-ease);
+}
+body .captcha__new {
+    transition: opacity 0.2s var(--motion-ease), translate 0.35s var(--motion-ease);
+}
+
+/* Events page */
+body .btn-view {
+    transition: translate 0.35s var(--motion-ease);
+}
+body .btn-reg {
+    transition: background 0.15s, translate 0.35s var(--motion-ease);
+}
+body .btn-journey {
+    transition: translate 0.35s var(--motion-ease);
+}
+
+/* Student sidebar: items glide forward instead of up */
+body .nav__item {
+    transition: background-color 0.15s ease, color 0.15s ease, translate 0.35s var(--motion-ease);
+}
+
+/* The actual lift (only on devices that really hover) */
+@media (hover: hover) {
+    body .login-btn:hover,
+    body .get-started-btn:hover,
+    body .hero-cta:hover,
+    body .final-cta-button:hover,
+    body .arena-view-all:hover,
+    body .show-btn:hover,
+    body .captcha__new:hover,
+    body .btn-view:hover,
+    body .btn-reg:hover,
+    body .btn-journey:hover {
+        translate: 0 var(--motion-lift);
+    }
+
+    body .nav-links a:hover,
+    body .site-nav__link:hover {
+        translate: 0 -1px;
+    }
+
+    body .nav__item:hover {
+        translate: 3px 0;
+    }
+}
+
+/* Gentle press feedback: settles back down while the button is held */
+body .login-btn:active,
+body .get-started-btn:active,
+body .hero-cta:active,
+body .final-cta-button:active,
+body .btn-view:active,
+body .btn-reg:active,
+body .btn-journey:active,
+body .submit-btn:active:not(:disabled) {
+    translate: 0 0;
+}
+
+/* The Login button must not lift/glow while the progress animation is running */
+body .login-submit:disabled,
+body .login-submit:disabled:hover {
+    transform: none;
+    box-shadow: none;
+    translate: none;
+    cursor: not-allowed;
+}
+
+/* ---------------------------------------------------------------------
+   3. FLOATING PURPLE DOTS (Register + Login share the same <AuthFrame> markup,
+   so they share this exact style). Reuses the existing .bg-dot elements; only
+   the path (a longer, multi-point drift) and visibility are refined.
+--------------------------------------------------------------------- */
+body .bg-dots .bg-dot {
+    background: rgba(116, 88, 248, 0.38);
+    animation-name: dot-drift-premium;
+    animation-timing-function: ease-in-out;
+    will-change: transform, opacity;
+}
+
+@keyframes dot-drift-premium {
+    0%   { transform: translate3d(0, 0, 0) scale(1);        opacity: 0.35; }
+    25%  { transform: translate3d(22px, -30px, 0) scale(1.15); opacity: 0.9; }
+    50%  { transform: translate3d(-14px, -62px, 0) scale(0.9); opacity: 1; }
+    75%  { transform: translate3d(26px, -36px, 0) scale(1.1);  opacity: 0.7; }
+    100% { transform: translate3d(8px, -10px, 0) scale(1);   opacity: 0.4; }
+}
+
+/* ---------------------------------------------------------------------
+   4. PAGE TRANSITION WRAPPER (see App.jsx). Deliberately style-free: it must not
+   alter any page layout. Only opacity is animated (no transform) so `position: fixed`
+   parts like the student sidebar never jump while a page fades.
+--------------------------------------------------------------------- */
+
+/* ---------------------------------------------------------------------
+   5. REDUCED MOTION - calm everything that is decorative.
+   (The login progress bus is kept: it is functional feedback, not decoration.)
+--------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    body .bg-dots .bg-dot {
+        animation: none;
+    }
+
+    body .login-btn:hover,
+    body .get-started-btn:hover,
+    body .hero-cta:hover,
+    body .final-cta-button:hover,
+    body .arena-view-all:hover,
+    body .show-btn:hover,
+    body .captcha__new:hover,
+    body .btn-view:hover,
+    body .btn-reg:hover,
+    body .btn-journey:hover,
+    body .nav-links a:hover,
+    body .site-nav__link:hover,
+    body .nav__item:hover {
+        translate: none;
+    }
+}
