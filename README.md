@@ -42,6 +42,10 @@ The Round 2 demo video will be added here when it is ready.
 <!-- Add your Round 2 demo video link here. -->
 <!-- Replace this section with your GitHub-hosted Round 2 video attachment URL. Do not use the Round 1 demo. -->
 
+
+https://github.com/user-attachments/assets/dac742d9-101a-42b6-9224-0c75036d48a8
+
+
 ---
 
 ## About CampusCode
