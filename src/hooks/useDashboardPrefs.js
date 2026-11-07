@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { getCurrentUser } from '../utils/auth.js';
 import { DEFAULT_PREFS, WIDGETS } from '../data/dashboardConfig.js';
 
@@ -43,43 +43,61 @@ function writePrefs(prefs) {
   localStorage.setItem(storageKey(), JSON.stringify(normalizePrefs(prefs)));
 }
 
+function clonePrefs(prefs) {
+  return normalizePrefs({
+    ...prefs,
+    order: [...(prefs.order || [])],
+    hidden: [...(prefs.hidden || [])],
+  });
+}
+
 /**
  * Dashboard layout preferences, keyed per logged-in student.
- * There is no backend in this project, so localStorage is the persistence layer
- * already used by auth.
+ * Appearance, layout and widget visibility apply immediately and persist to localStorage.
  */
 export default function useDashboardPrefs() {
   const [saved, setSaved] = useState(readPrefs);
   const [draft, setDraft] = useState(saved);
   const [panelOpen, setPanelOpen] = useState(false);
+  const snapshotRef = useRef(null);
+
+  const commit = useCallback((next) => {
+    const normalized = normalizePrefs(next);
+    writePrefs(normalized);
+    setSaved(normalized);
+    setDraft(normalized);
+    return normalized;
+  }, []);
 
   const openPanel = useCallback(() => {
+    snapshotRef.current = clonePrefs(saved);
     setDraft(saved);
     setPanelOpen(true);
   }, [saved]);
 
-  const closePanel = useCallback((revert = true) => {
-    if (revert) setDraft(saved);
+  const closePanel = useCallback((revert = false) => {
+    if (revert && snapshotRef.current) {
+      commit(snapshotRef.current);
+    }
     setPanelOpen(false);
-  }, [saved]);
+  }, [commit]);
 
   const save = useCallback(() => {
-    const next = normalizePrefs(draft);
-    writePrefs(next);
-    setSaved(next);
-    setDraft(next);
+    commit(draft);
     setPanelOpen(false);
-  }, [draft]);
+  }, [commit, draft]);
 
   const reset = useCallback(() => {
-    const next = { ...DEFAULT_PREFS, order: [...DEFAULT_PREFS.order], hidden: [] };
-    writePrefs(next);
-    setSaved(next);
-    setDraft(next);
-  }, []);
+    commit({ ...DEFAULT_PREFS, order: [...DEFAULT_PREFS.order], hidden: [] });
+  }, [commit]);
 
   const updateDraft = useCallback((patch) => {
-    setDraft((prev) => normalizePrefs({ ...prev, ...patch }));
+    setDraft((prev) => {
+      const next = normalizePrefs({ ...prev, ...patch });
+      writePrefs(next);
+      setSaved(next);
+      return next;
+    });
   }, []);
 
   const moveWidget = useCallback((fromId, toId) => {
@@ -91,7 +109,10 @@ export default function useDashboardPrefs() {
       if (from < 0 || to < 0) return prev;
       order.splice(from, 1);
       order.splice(to, 0, fromId);
-      return { ...prev, order };
+      const next = { ...prev, order };
+      writePrefs(next);
+      setSaved(next);
+      return next;
     });
   }, []);
 
@@ -100,7 +121,10 @@ export default function useDashboardPrefs() {
       const hidden = prev.hidden.includes(id)
         ? prev.hidden.filter((item) => item !== id)
         : [...prev.hidden, id];
-      return { ...prev, hidden };
+      const next = { ...prev, hidden };
+      writePrefs(next);
+      setSaved(next);
+      return next;
     });
   }, []);
 

@@ -6,7 +6,7 @@ import { APPEARANCES, LAYOUT_STYLES, WIDGETS, widgetById } from '../../data/dash
 
 export default function CustomizePanel() {
   const {
-    panelOpen, closePanel, save, draft, updateDraft, moveWidget, toggleHidden,
+    panelOpen, closePanel, save, reset, draft, updateDraft, moveWidget, toggleHidden,
   } = useStudentUI();
   const [tab, setTab] = useState('layout');
   const [dragId, setDragId] = useState(null);
@@ -27,7 +27,7 @@ export default function CustomizePanel() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={slide}
-            onClick={() => closePanel(true)}
+            onClick={() => closePanel(false)}
           />
           <motion.aside
             className="sd-drawer"
@@ -40,9 +40,9 @@ export default function CustomizePanel() {
             <header className="sd-drawer__head">
               <div>
                 <h2>Customize Dashboard</h2>
-                <p>Add, hide and rearrange sections. Preferences are saved to this account.</p>
+                <p>Theme, layout and widgets apply immediately and stay saved to this account.</p>
               </div>
-              <button type="button" className="sd-icon-plain" onClick={() => closePanel(true)} aria-label="Close">
+              <button type="button" className="sd-icon-plain" onClick={() => closePanel(false)} aria-label="Close">
                 <Icon name="i-x" className="sd-icon-plain__svg" />
               </button>
             </header>
@@ -126,10 +126,11 @@ export default function CustomizePanel() {
             )}
 
             <footer className="sd-drawer__foot">
+              <button type="button" className="sd-ghost-btn" onClick={reset}>Reset to Default</button>
               <button type="button" className="sd-ghost-btn" onClick={() => closePanel(true)}>Cancel</button>
               <button type="button" className="sd-solid-btn" onClick={save}>
                 <Icon name="i-check" className="sd-solid-btn__icon" />
-                Save Changes
+                Apply
               </button>
             </footer>
           </motion.aside>

@@ -29,7 +29,7 @@ export function FeaturedEvent() {
         <p className="eyebrow eyebrow--green">Build · Learn · Collaborate</p>
         <h3 className="hero__title">ReBuild '26</h3>
         <p className="hero__text">ReBuild '26 is an individual dashboard-recreation hackathon by CampusCode. You participate alone, but you must create a team name for tracking and use it on your Unstop registration, the CampusCode portal, and every submission. Round 1 (Friday, 6 Nov, morning to 10 PM): Recreate the CampusCode user flow faithfully — Dashboard, Login, Register, and Student dashboard — and submit your demo any time till 10 PM. Round 2 (Saturday, 7 Nov, top performers from Round 1 only): Build a complete new UI in CampusCode's vibe. Frontend only, mock data is fine. No presentation round. Prizes: Winner certificate + CampusCode internship with ₹15,000 stipend, runner-up certificate, and participation certificates for all. Sunday, 8 Nov (Diwali) is free. This is a paid event (₹50 on Unstop). Paid students receive an invite code — enter it when you join this event on the portal.</p>
-        <a className="btn btn--lime" href="#">OPEN EVENT <span className="btn__arrow">↗</span></a>
+        <Link className="btn btn--lime" to="/student/events">OPEN EVENT <span className="btn__arrow">↗</span></Link>
       </div>
 
       {/* Brand geometry only — no avatars. Motion is CSS; frozen under reduced-motion. */}
@@ -142,7 +142,7 @@ export function ProgressPanel() {
     <article className="panel journey sd-panel">
       <div className="panel__head">
         <h4 className="panel__label">My Progress</h4>
-        <a className="link" href="#">Certificates ↗</a>
+        <Link className="link" to="/student/certificates">Certificates ↗</Link>
       </div>
       <div className="sd-ring-wrap">
         <div className="sd-ring" style={{ '--p': '75%' }}>
@@ -151,7 +151,7 @@ export function ProgressPanel() {
         <div>
           <p className="sd-ring__title">Profile completion</p>
           <p className="sd-ring__text">Add your skills, projects and achievements.</p>
-          <a className="link" href="#">Complete profile →</a>
+          <Link className="link" to="/student/profile">Complete profile →</Link>
         </div>
       </div>
       <ul className="journey__list">
@@ -219,9 +219,9 @@ export function Spotlight() {
       <h3 className="spotlight__title">Your AI teammates are ready.</h3>
       <p className="spotlight__text">Check your idea, find teammates, or ask the rules — right from here.</p>
       <div className="spotlight__chips">
-        <a className="chip" href="#"><Icon name="i-sparkles" className="chip__icon" />IdeaCheck</a>
-        <a className="chip" href="#"><Icon name="i-users" className="chip__icon" />HackMate</a>
-        <a className="chip" href="#"><Icon name="i-bot" className="chip__icon" />RuleBot</a>
+        <Link className="chip" to="/student/ideacheck"><Icon name="i-sparkles" className="chip__icon" />IdeaCheck</Link>
+        <Link className="chip" to="/student/hackmate"><Icon name="i-users" className="chip__icon" />HackMate</Link>
+        <Link className="chip" to="/student/rulebot"><Icon name="i-bot" className="chip__icon" />RuleBot</Link>
       </div>
     </article>
   );
@@ -263,7 +263,7 @@ export function Notifications() {
     <article className="panel notifications sd-panel">
       <div className="panel__head">
         <h4 className="panel__label">Notifications</h4>
-        <a className="link" href="#">Open all ↗</a>
+        <Link className="link" to="/student/notifications">Open all ↗</Link>
       </div>
       <div className="notifications__empty">
         <svg className="notifications__mark"><use href="#mark" /></svg>

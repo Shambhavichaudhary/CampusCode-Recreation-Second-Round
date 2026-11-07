@@ -6,6 +6,16 @@ import Login from './pages/Login/Login.jsx';
 import StudentDashboard from './pages/StudentDashboard/StudentDashboard.jsx';
 import Events from './pages/Events/Events.jsx';
 import MyEvents from './pages/MyEvents/MyEvents.jsx';
+import HackMate from './pages/student/HackMate.jsx';
+import IdeaCheck from './pages/student/IdeaCheck.jsx';
+import Certificates from './pages/student/Certificates.jsx';
+import DigitalCard from './pages/student/DigitalCard.jsx';
+import RuleBot from './pages/student/RuleBot.jsx';
+import StudentGuide from './pages/student/StudentGuide.jsx';
+import OfficialComm from './pages/student/OfficialComm.jsx';
+import Notifications from './pages/student/Notifications.jsx';
+import HelpSupport from './pages/student/HelpSupport.jsx';
+import Profile from './pages/student/Profile.jsx';
 import ProtectedRoute from './components/auth/ProtectedRoute.jsx';
 import StudentShell from './components/student/StudentShell.jsx';
 import CursorGlow from './components/motion/CursorGlow.jsx';
@@ -78,6 +88,16 @@ export default function App() {
                 <Route path="/student" element={<StudentDashboard />} />
                 <Route path="/student/events" element={<Events />} />
                 <Route path="/student/my-events" element={<MyEvents />} />
+                <Route path="/student/hackmate" element={<HackMate />} />
+                <Route path="/student/ideacheck" element={<IdeaCheck />} />
+                <Route path="/student/certificates" element={<Certificates />} />
+                <Route path="/student/digital-card" element={<DigitalCard />} />
+                <Route path="/student/rulebot" element={<RuleBot />} />
+                <Route path="/student/guide" element={<StudentGuide />} />
+                <Route path="/student/communication" element={<OfficialComm />} />
+                <Route path="/student/notifications" element={<Notifications />} />
+                <Route path="/student/help" element={<HelpSupport />} />
+                <Route path="/student/profile" element={<Profile />} />
               </Route>
             </Route>
           </Routes>

@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import usePageStyles from '../../hooks/usePageStyles.js';
 import shellCss from '../../styles/shared/student-shell.css?inline';
 import sidebarCss from '../../styles/shared/sidebar.css?inline';
+import featureCss from '../../styles/pages/student-pages.css?inline';
 
 import SvgSprite from './SvgSprite.jsx';
 import Sidebar from './Sidebar.jsx';
@@ -33,7 +34,7 @@ function ShellFrame() {
 
 /** Shared chrome for Overview, Events and My Events. */
 export default function StudentShell() {
-  usePageStyles([shellCss, sidebarCss]);
+  usePageStyles([shellCss, sidebarCss, featureCss]);
 
   return (
     <StudentUIProvider>

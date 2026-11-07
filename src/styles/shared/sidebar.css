@@ -64,14 +64,23 @@
   font-weight: 550;
   color: #3a3a38;
   transition:
-    background-color 0.25s ease,
-    color 0.25s ease,
-    box-shadow 0.25s ease;
+    background-color 0.22s ease,
+    color 0.22s ease,
+    box-shadow 0.22s ease;
 }
 
-.nav__item:hover {
-  background: #c6c6c1;
-  color: #2e2e2c;
+@media (hover: hover) {
+  .nav__item:hover {
+    background: #c6c6c1;
+    color: #2e2e2c;
+  }
+  .nav__item:hover .nav__icon {
+    opacity: 1;
+    transform: translateX(1px);
+  }
+}
+.nav__item:active {
+  background: #cecec9;
 }
 
 .nav__icon {
@@ -85,6 +94,7 @@
   stroke-linecap: round;
   stroke-linejoin: round;
   opacity: 0.9;
+  transition: opacity 0.22s ease, transform 0.22s ease;
 }
 
 .nav__label { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -102,11 +112,12 @@
   background: #d2d2cd;
   color: #2e2e2c;
   font-weight: 650;
-  box-shadow: inset 3px 0 0 var(--purple);
+  box-shadow: inset 3px 0 0 var(--sd-accent, var(--purple));
 }
 
-.sd-app[data-accent="green"] .nav__item--active {
-  box-shadow: inset 3px 0 0 #83bd19;
+.nav__item:focus-visible {
+  outline: 2px solid var(--sd-accent, var(--purple));
+  outline-offset: 2px;
 }
 
 .sd-sidebar__foot { padding: 8px 12px 4px; margin-top: auto; }
@@ -122,11 +133,20 @@
   color: #3a3a38;
   text-align: left;
   background: #c6c6c1;
-  transition: border-color 0.25s ease, background-color 0.25s ease;
+  transition: border-color 0.22s ease, background-color 0.22s ease, transform 0.22s ease;
 }
-.sd-sidebar__customize:hover {
-  border-color: #83bd19;
-  background: #d2d2cd;
+@media (hover: hover) {
+  .sd-sidebar__customize:hover {
+    border-color: var(--sd-accent, #83bd19);
+    background: #d2d2cd;
+  }
+}
+.sd-sidebar__customize:active {
+  background: #cecec9;
+}
+.sd-sidebar__customize:focus-visible {
+  outline: 2px solid var(--sd-accent, var(--purple));
+  outline-offset: 2px;
 }
 .sd-sidebar__customize small {
   display: block;
@@ -142,8 +162,12 @@
 
 @media (prefers-reduced-motion: reduce) {
   .nav__item,
+  .nav__icon,
   .sd-sidebar__customize {
     transition: none;
+  }
+  .nav__item:hover .nav__icon {
+    transform: none;
   }
 }
 

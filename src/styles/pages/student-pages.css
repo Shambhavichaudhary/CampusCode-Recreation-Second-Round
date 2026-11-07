@@ -1,0 +1,296 @@
+/* Feature pages inside StudentShell. Prefix: sd-feature — does not restyle Events. */
+
+.sd-feature {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+  animation: sd-fade-up 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.sd-feature__head { max-width: 720px; }
+.sd-feature__kicker {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--sd-muted);
+}
+.sd-feature__title {
+  margin-top: 8px;
+  font-size: clamp(26px, 3.4vw, 36px);
+  font-weight: 780;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+}
+.sd-feature__lead {
+  margin-top: 10px;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--sd-muted);
+  max-width: 58ch;
+}
+
+.sd-feature-card {
+  background: var(--sd-surface);
+  border: 1px solid var(--sd-line);
+  border-radius: var(--sd-radius);
+  padding: 18px 20px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.02);
+  min-width: 0;
+}
+
+.sd-feature-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 16px;
+}
+.sd-feature-grid--3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.sd-feature-stack { display: flex; flex-direction: column; gap: 12px; }
+
+.sd-app[data-style="compact"] .sd-feature { gap: 12px; }
+.sd-app[data-style="compact"] .sd-feature-card { padding: 14px 16px; }
+.sd-app[data-style="minimal"] .sd-feature-card {
+  background: transparent;
+  box-shadow: none;
+  border-color: #ecece8;
+}
+
+.sd-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.sd-field span {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7a7a75;
+}
+.sd-field input,
+.sd-field textarea,
+.sd-field select {
+  width: 100%;
+  border: 1px solid var(--sd-line);
+  border-radius: var(--sd-radius);
+  background: #fff;
+  padding: 10px 12px;
+  font: inherit;
+  font-size: 14px;
+  color: var(--sd-ink);
+}
+.sd-field textarea { min-height: 110px; resize: vertical; }
+
+.sd-chat {
+  display: flex;
+  flex-direction: column;
+  min-height: 420px;
+}
+.sd-chat__log {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 14px;
+  max-height: 420px;
+  overflow: auto;
+}
+.sd-bubble {
+  max-width: 86%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  border: 1px solid var(--sd-line);
+}
+.sd-bubble--bot { background: #f7f7f4; }
+.sd-bubble--me {
+  align-self: flex-end;
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+.sd-chat__form {
+  display: flex;
+  gap: 8px;
+}
+.sd-chat__form input {
+  flex: 1;
+  min-width: 0;
+  height: 42px;
+  border: 1px solid var(--sd-line);
+  border-radius: var(--sd-radius);
+  padding: 0 12px;
+  font: inherit;
+}
+
+.sd-idcard {
+  width: min(420px, 100%);
+  background: #111;
+  color: #fff;
+  border-radius: 12px;
+  padding: 22px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+}
+.sd-idcard::after {
+  content: "";
+  position: absolute;
+  right: -40px;
+  top: -40px;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--sd-accent) 35%, transparent);
+}
+.sd-idcard__brand {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #bdbdb8;
+  position: relative;
+  z-index: 1;
+}
+.sd-idcard h3 {
+  margin-top: 28px;
+  font-size: 26px;
+  letter-spacing: -0.03em;
+  position: relative;
+  z-index: 1;
+}
+.sd-idcard p {
+  margin-top: 6px;
+  font-size: 13px;
+  color: #cfcfca;
+  position: relative;
+  z-index: 1;
+}
+.sd-idcard__meta {
+  margin-top: 28px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #9a9a95;
+  position: relative;
+  z-index: 1;
+}
+
+.sd-cert {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.sd-cert__mark {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: #111;
+  color: #fff;
+  font-weight: 800;
+  font-size: 13px;
+}
+.sd-cert h3 { font-size: 16px; }
+.sd-cert p { font-size: 13px; color: var(--sd-muted); line-height: 1.45; }
+
+.sd-note--important {
+  border-left: 3px solid var(--sd-accent);
+}
+.sd-note__flag {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sd-accent);
+}
+.sd-note time {
+  font-size: 11px;
+  color: var(--sd-muted);
+}
+
+.sd-notif {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+}
+.sd-notif.is-unread {
+  background: color-mix(in srgb, var(--sd-accent) 6%, #fff);
+  border-color: color-mix(in srgb, var(--sd-accent) 28%, var(--sd-line));
+}
+.sd-notif__dot {
+  width: 8px;
+  height: 8px;
+  margin-top: 6px;
+  border-radius: 50%;
+  background: var(--sd-line);
+  flex: none;
+}
+.sd-notif.is-unread .sd-notif__dot { background: var(--sd-accent); }
+
+.sd-guide-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.sd-guide-nav button {
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+@media (hover: hover) {
+  .sd-guide-nav button:hover { background: #f1f1ee; color: #111; }
+}
+.sd-guide-nav button.is-on {
+  background: #111;
+  color: #fff;
+  box-shadow: inset 3px 0 0 var(--sd-accent);
+}
+
+.sd-feature .sd-empty {
+  padding: 28px 16px;
+  text-align: center;
+  color: var(--sd-muted);
+  font-size: 14px;
+}
+
+.sd-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.sd-score {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.sd-score strong { display: block; font-size: 22px; letter-spacing: -0.03em; }
+.sd-score span { font-size: 11px; color: var(--sd-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+@media (max-width: 900px) {
+  .sd-feature-grid,
+  .sd-feature-grid--3,
+  .sd-score {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sd-feature { animation: none; }
+}

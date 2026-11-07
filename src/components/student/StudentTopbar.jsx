@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Icon from './Icon.jsx';
 import { useStudentUI } from '../../context/StudentUIContext.jsx';
 import { logoutUser } from '../../utils/auth.js';
@@ -8,6 +8,16 @@ const TITLES = {
   '/student': { crumb: 'CampusCode / Student', page: 'Overview' },
   '/student/events': { crumb: 'CampusCode / Student', page: 'Events' },
   '/student/my-events': { crumb: 'CampusCode / Student', page: 'My Events' },
+  '/student/hackmate': { crumb: 'CampusCode / Student', page: 'HackMate AI' },
+  '/student/ideacheck': { crumb: 'CampusCode / Student', page: 'IdeaCheck AI' },
+  '/student/certificates': { crumb: 'CampusCode / Student', page: 'Certificates' },
+  '/student/digital-card': { crumb: 'CampusCode / Student', page: 'Digital Card' },
+  '/student/rulebot': { crumb: 'CampusCode / Student', page: 'RuleBot AI' },
+  '/student/guide': { crumb: 'CampusCode / Student', page: 'Student Guide' },
+  '/student/communication': { crumb: 'CampusCode / Student', page: 'Official Communication' },
+  '/student/notifications': { crumb: 'CampusCode / Student', page: 'Notifications' },
+  '/student/help': { crumb: 'CampusCode / Student', page: 'Help & Support' },
+  '/student/profile': { crumb: 'CampusCode / Student', page: 'Profile' },
 };
 
 export default function StudentTopbar() {
@@ -59,10 +69,10 @@ export default function StudentTopbar() {
           </>
         )}
 
-        <button className="icon-btn" type="button" aria-label="Notifications">
+        <Link className="icon-btn" to="/student/notifications" aria-label="Notifications">
           <Icon name="i-bell" className="icon-btn__icon" />
           <span className="icon-btn__dot"></span>
-        </button>
+        </Link>
 
         <button className="refresh-btn" type="button" onClick={() => window.location.reload()}>
           <span className="refresh-btn__icon"><svg><use href="#i-refresh" /></svg></span>
