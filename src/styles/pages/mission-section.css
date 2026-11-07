@@ -1,0 +1,177 @@
+/* =====================================================================
+   THE MISSION  ("GREAT IDEAS NEED BUILDERS.")
+   Loaded only with MissionSection.jsx. Every class is prefixed "msn-" and every
+   custom property lives on .msn-section, so nothing here touches another section.
+   Typography values (size, weight, leading, tracking) are the ones the section
+   already had in landing.css.
+   ===================================================================== */
+
+.msn-section {
+    --cc-ink: #0a0a0a;
+    --cc-body: #4a4a4f;
+    --cc-bg: #f7f7f8;
+    --cc-grey: #ececee;
+    --cc-purple: #4a1a8c;
+    --cc-purple-soft: #b9a3e6;
+
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding: 110px 10% 120px;
+    overflow: hidden;
+    background-color: var(--cc-bg);
+}
+
+/* ---------- background: silk shapes ---------- */
+.msn-waves {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ---------- background: BUILD ---------- */
+.msn-bg-word {
+    position: absolute;
+    top: 4%;
+    right: -2%;
+    z-index: 0;
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+
+    font-family: var(--font-main);
+    font-size: 26vw;
+    font-weight: 900;
+    font-style: italic;
+    line-height: 0.8;
+    letter-spacing: -0.04em;
+    color: var(--cc-grey);
+    /* tilt + parallax are set together by Framer Motion (see MissionSection.jsx) */
+    will-change: transform;
+}
+
+/* ---------- label ---------- */
+.msn-label {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: -25px;
+
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--cc-ink);
+}
+
+/* ---------- content ---------- */
+.msn-content {
+    position: relative;
+    z-index: 2;
+    margin-top: 25px;
+}
+
+.msn-title {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0;
+
+    font-family: var(--font-main);
+    font-size: clamp(98px, 9.5vw, 175px);
+    font-weight: 800;
+    line-height: 0.825;
+    letter-spacing: -0.05em;
+    text-transform: uppercase;
+}
+
+.msn-line {
+    display: block;
+}
+
+.msn-solid {
+    color: var(--cc-ink);
+}
+
+.msn-outline {
+    color: transparent;
+    -webkit-text-stroke: 2px var(--cc-ink);
+    /* keeps the stroke joins clean where tightly tracked letters touch */
+    paint-order: stroke fill;
+    stroke-linejoin: round;
+}
+
+.msn-builders {
+    cursor: default;
+    transition: -webkit-text-stroke-width 0.5s ease, -webkit-text-stroke-color 0.5s ease;
+}
+
+.msn-builders:hover {
+    -webkit-text-stroke-width: 2.6px;
+    -webkit-text-stroke-color: #000;
+}
+
+.msn-description {
+    max-width: 560px;
+    margin: 50px 0 0;
+
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.8;
+    color: var(--cc-body);
+}
+
+/* short dark-purple accent line under the paragraph */
+.msn-accent {
+    display: block;
+    width: 118px;
+    height: 6px;
+    margin-top: 22px;
+    border-radius: 6px;
+    background: linear-gradient(90deg, var(--cc-purple), var(--cc-purple-soft));
+    transform-origin: left center;
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 900px) {
+    .msn-section {
+        padding: 90px 8% 100px;
+    }
+    .msn-bg-word {
+        font-size: 36vw;
+        top: 20%;
+        right: -8%;
+    }
+}
+
+@media (max-width: 600px) {
+    .msn-section {
+        padding: 80px 6% 90px;
+    }
+    .msn-title {
+        font-size: 17vw;
+    }
+    .msn-outline {
+        -webkit-text-stroke-width: 1.5px;
+    }
+    .msn-description {
+        margin-top: 36px;
+        font-size: 15px;
+    }
+    .msn-bg-word {
+        font-size: 46vw;
+        top: 38%;
+    }
+}
+
+/* ---------- reduced motion: static, finished state ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .msn-builders {
+        transition: none;
+    }
+}

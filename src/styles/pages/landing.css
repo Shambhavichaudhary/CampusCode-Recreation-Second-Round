@@ -1179,240 +1179,307 @@ body {
 
 
 /* ================= ENTER THE ARENA SECTION ================= */
+/* Everything here is scoped to .arena-*; nothing outside this section is affected. */
 
 .arena-section {
+    position: relative;
     width: 100%;
+    overflow: hidden; /* no horizontal overflow from the hover scale */
 
-    padding: 150px 7% 150px;
+    padding: 34px 5% 110px;
 
-    background: #f8f8f6;
+    background-color: #f8f8f6;
+
+    /* subtle grid / check pattern */
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.035) 1px, transparent 1px);
+    background-size: 36px 36px;
 }
 
 
-/* ================= ARENA HEADER ================= */
+/* ----- Top label bar ----- */
+
+.arena-topbar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 16px;
+
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: #111;
+}
+
+.arena-topbar-center {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    white-space: nowrap;
+}
+
+.arena-topbar-center i {
+    display: block;
+    width: 48px;
+    height: 1px;
+    background: #111;
+}
+
+.arena-topbar-right {
+    justify-self: end;
+}
+
+
+/* ----- Heading ----- */
 
 .arena-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    margin-bottom: 35px;
+    margin: 64px auto 44px;
+    text-align: center;
 }
 
-
-/* Heading */
-
-.arena-heading {
-    display: flex;
-    align-items: center;
-
-    gap: 10px;
-}
-
-
-.arena-section-number {
-    font-family: var(--font-mono);
-
-    font-size: 13px;
-
-    color: #9277ff;
-}
-
-
-.arena-heading h2 {
+.arena-header h2 {
     margin: 0;
 
-    font-size: 32px;
+    font-size: clamp(40px, 6.2vw, 90px);
     font-weight: 800;
-
-    letter-spacing: -0.04em;
+    line-height: 1;
+    letter-spacing: -0.045em;
 
     color: #111;
 }
 
+.arena-header p {
+    margin: 16px 0 0;
 
-/* View All Link */
-
-.arena-view-all {
-    display: flex;
-    align-items: center;
-
-    gap: 12px;
-
-    text-decoration: none;
-
-    font-family: var(--font-mono);
-
-    font-size: 11px;
-
-    letter-spacing: 0.1em;
-
-    color: #888;
-
-    transition: color 0.3s ease;
+    font-size: clamp(15px, 1.5vw, 21px);
+    color: #666;
 }
 
 
-.arena-view-all:hover {
-    color: #9277ff;
-}
-
-
-/* ================= ARENA LIST ================= */
+/* ----- Card list ----- */
 
 .arena-list {
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
 
-    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    width: min(100%, 1040px);
+    margin: 0 auto;
 }
 
-
-/* Individual Arena Row */
-
-/* ================= ARENA ITEM ================= */
-
-.arena-item {
+/* Reveal wrapper: carries only the Framer Motion entrance so it never
+   fights the CSS hover transform on .arena-item. */
+.arena-item-reveal {
     position: relative;
-
-    display: grid;
-
-    grid-template-columns: 45px 1.1fr 1.5fr 110px 25px;
-
-    align-items: center;
-
-    gap: 20px;
-
-    min-height: 188px;
-
-    padding: 20px 0;
-
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-
-    text-decoration: none;
-
-    color: #111;
-
-    /* Animation additions */
-    transform: translateY(0);
-
-    transition:
-        transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
-        background 0.4s ease,
-        box-shadow 0.4s ease;
 }
 
-
-/* ================= ARENA ITEM HOVER ================= */
-
-.arena-item:hover {
-    transform: translateY(-4px);
-
-    background: #fff;
-
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.045);
-
+.arena-item-reveal:hover,
+.arena-item-reveal:focus-within {
     z-index: 2;
 }
 
 
-/* Serial Number */
+/* ----- Card ----- */
 
-.arena-item-number {
-    font-family: var(--font-mono);
+.arena-item {
+    display: grid;
+    grid-template-columns: 64px 1px minmax(0, 1fr) 28px;
+    align-items: center;
+    column-gap: 26px;
 
-    font-size: 10px;
+    min-height: 104px;
+    padding: 20px 38px 20px 34px;
 
-    color: #999;
-}
+    background: #fff;
+    border: 1px solid #1d1d1d;
+    border-radius: 24px;
 
-
-/* Category Heading */
-.arena-item-kind {
-    display: block;
-    margin-bottom: 10px;
-
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.06em;
-    color: #6f8a4a;
-}
-
-
-.arena-item h3 {
-    margin: 0;
-
-    font-size: 25px;
-
-    font-weight: 750;
-
-    letter-spacing: -0.04em;
-
+    text-decoration: none;
     color: #111;
+
+    transition:
+        transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+        background-color 0.4s ease,
+        box-shadow 0.4s ease;
 }
 
+.arena-icon {
+    display: grid;
+    place-items: center;
 
-/* Description */
+    width: 64px;
+    height: 64px;
 
-.arena-item p {
+    background: #f1f1ef;
+    border-radius: 16px;
+}
+
+.arena-icon svg {
+    width: 34px;
+    height: 34px;
+}
+
+.arena-divider {
+    width: 1.5px;
+    height: 44px;
+    background: #111;
+}
+
+.arena-copy h3 {
     margin: 0;
 
-    font-size: 15px;
-
-    line-height: 1.6;
-
-    color: #888;
+    font-size: clamp(22px, 2.4vw, 32px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
 }
 
+.arena-copy p {
+    margin: 4px 0 0;
 
-/* Category Tag */
-
-.arena-tag {
-    justify-self: center;
-
-    font-family: var(--font-mono);
-
-    font-size: 10px;
-
-    letter-spacing: 0.1em;
-
-    color: #999;
+    font-size: clamp(14px, 1.3vw, 18px);
+    line-height: 1.4;
+    color: #222;
 }
-
-.arena-tag::before {
-    content: "";
-    display: inline-block;
-    width: 7px;
-    height: 7px;
-    margin-right: 8px;
-    border-radius: 50%;
-    background: #bbb;
-}
-
-.arena-tag.live::before {
-    background: #83bd19;
-}
-
-.arena-tag.open::before {
-    background: #9277ff;
-}
-
-/* Arrow */
 
 .arena-arrow {
     justify-self: end;
+    display: grid;
+    place-items: center;
 
-    font-size: 16px;
+    width: 28px;
+    height: 28px;
 
-    color: #888;
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
 
-    transition: transform 0.3s ease, color 0.3s ease;
+.arena-arrow svg {
+    width: 100%;
+    height: 100%;
 }
 
 
-.arena-item:hover .arena-arrow {
-    transform: translate(3px, -3px);
+/* ----- Hover / keyboard focus (real-hover devices only) ----- */
+/* Same look as the reference: darker border, soft grey fill, soft shadow,
+   a gentle lift + slight widening, arrow glides right. */
 
-    color: #9277ff;
+@media (hover: hover) {
+    .arena-item:hover {
+        transform: translateY(-3px) scale(1.012);
+
+        background: #f4f4f2;
+
+        box-shadow:
+            0 0 0 1px #111,
+            0 18px 30px -14px rgba(0, 0, 0, 0.28);
+    }
+
+    .arena-item:hover .arena-arrow {
+        transform: translateX(6px);
+    }
+}
+
+.arena-item:focus-visible {
+    outline: none;
+    background: #f4f4f2;
+    box-shadow: 0 0 0 2px #111;
+}
+
+
+/* ----- Responsive ----- */
+
+@media (max-width: 900px) {
+    .arena-section {
+        padding: 28px 5% 90px;
+    }
+
+    .arena-topbar {
+        grid-template-columns: 1fr auto;
+        font-size: 11px;
+    }
+
+    .arena-topbar-center {
+        display: none;
+    }
+
+    .arena-header {
+        margin: 48px auto 34px;
+    }
+
+    .arena-list {
+        gap: 18px;
+    }
+
+    .arena-item {
+        grid-template-columns: 54px 1px minmax(0, 1fr) 24px;
+        column-gap: 18px;
+        min-height: 92px;
+        padding: 16px 22px 16px 20px;
+        border-radius: 20px;
+    }
+
+    .arena-icon {
+        width: 54px;
+        height: 54px;
+        border-radius: 14px;
+    }
+
+    .arena-icon svg {
+        width: 28px;
+        height: 28px;
+    }
+
+    .arena-divider {
+        height: 38px;
+    }
+}
+
+@media (max-width: 560px) {
+    .arena-section {
+        padding-bottom: 70px;
+    }
+
+    .arena-topbar {
+        letter-spacing: 0.1em;
+    }
+
+    .arena-item {
+        grid-template-columns: 46px 1px minmax(0, 1fr) 20px;
+        column-gap: 14px;
+        padding: 14px 16px;
+    }
+
+    .arena-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+    }
+
+    .arena-icon svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .arena-arrow {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+
+/* Reduced motion: no lift / scale / slide, colour change only */
+@media (prefers-reduced-motion: reduce) {
+    .arena-item,
+    .arena-arrow {
+        transition: background-color 0.2s ease;
+    }
+
+    .arena-item:hover,
+    .arena-item:hover .arena-arrow {
+        transform: none;
+    }
 }
 
 

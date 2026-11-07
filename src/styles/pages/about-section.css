@@ -1,0 +1,470 @@
+/* =====================================================================
+   "WHAT IS CAMPUSCODE?" SECTION  (components/landing/AboutSection.jsx + OrbitalOrb.jsx)
+   ---------------------------------------------------------------------
+   Loaded only while the landing page is shown (usePageStyles in AboutSection).
+   Every selector starts with .cc-about or .cc-orb, so it cannot affect any other section.
+   Colours: black / white / grey only. Purple appears on one thing: the BUILD. hover.
+   ===================================================================== */
+
+.cc-about {
+    --about-pad: clamp(20px, 6.8vw, 150px);
+    --about-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+    --about-purple: var(--purple, #7a64f5);
+    --about-ink: #111;
+    --about-muted: #6b6b6b;
+
+    position: relative;
+
+    width: 100%;
+    padding: clamp(104px, 9vw, 150px) var(--about-pad) clamp(72px, 7vw, 120px);
+
+    overflow: hidden;
+
+    background: #fafaf8;
+    color: var(--about-ink);
+    font-family: var(--font-main, "Inter", Arial, Helvetica, sans-serif);
+}
+
+/* very soft grey light behind the orb - the only "glow" in the section */
+.cc-about::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background: radial-gradient(60% 75% at 74% 50%, rgba(17, 17, 17, 0.045), rgba(17, 17, 17, 0) 70%);
+
+    pointer-events: none;
+}
+
+.cc-about__inner {
+    position: relative;
+
+    max-width: 1600px;
+    margin-inline: auto;
+}
+
+
+/* ================= TOP LABEL ================= */
+
+.cc-about__top {
+    display: flex;
+    align-items: center;
+    gap: clamp(14px, 1.4vw, 24px);
+
+    margin-bottom: clamp(28px, 3.2vw, 56px);
+
+    font-family: var(--font-mono, "JetBrains Mono", monospace);
+    color: var(--about-ink);
+}
+
+.cc-about__no {
+    font-size: clamp(12px, 0.85vw, 15px);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.cc-about__dot {
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: var(--about-ink);
+}
+
+.cc-about__label {
+    margin: 0;
+
+    font-size: clamp(11px, 0.8vw, 14px);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+}
+
+
+/* ================= LAYOUT ================= */
+
+.cc-about__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    align-items: center;
+    column-gap: clamp(24px, 3vw, 64px);
+}
+
+.cc-about__content {
+    min-width: 0;
+}
+
+.cc-about__visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 0;
+}
+
+
+/* ================= HEADING ================= */
+
+.cc-about__title {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    margin: 0 0 0 clamp(0px, 4.6vw, 90px);
+
+    font-size: clamp(56px, 7.5vw, 148px);
+    font-weight: 800;
+    line-height: 0.88;
+    letter-spacing: -0.045em;
+
+    color: var(--about-ink);
+}
+
+.cc-about__line {
+    display: block;
+}
+
+/* BUILD. - black outline, transparent inside.
+   Hover: a purple fill rises through the letters while the outline turns purple.
+   The fill is a soft-edged gradient that is only moved (background-position), clipped to the text. */
+.cc-about__build {
+    display: inline-block;
+
+    color: transparent;
+
+    -webkit-text-stroke-width: max(1.5px, 0.021em);
+    -webkit-text-stroke-color: var(--about-ink);
+
+    background-image: linear-gradient(
+        to top,
+        var(--about-purple) 0%,
+        var(--about-purple) 46%,
+        rgba(122, 100, 245, 0) 54%,
+        rgba(122, 100, 245, 0) 100%
+    );
+    background-size: 100% 260%;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    transition:
+        background-position 0.95s var(--about-ease),
+        -webkit-text-stroke-color 0.6s ease;
+}
+
+@media (hover: hover) {
+    .cc-about__build:hover {
+        background-position: 0 100%;
+        -webkit-text-stroke-color: var(--about-purple);
+    }
+}
+
+
+/* ================= DESCRIPTION ================= */
+
+.cc-about__description {
+    max-width: 33.5em;
+    margin: clamp(28px, 3vw, 52px) 0 0 clamp(0px, 1.8vw, 32px);
+
+    font-size: clamp(16px, 1.18vw, 22px);
+    line-height: 1.4;
+    letter-spacing: -0.005em;
+
+    color: var(--about-muted);
+}
+
+
+/* ================= INFORMATION STRIP ================= */
+
+.cc-about__strip {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    margin: clamp(32px, 3vw, 56px) 0 0 clamp(0px, 1.8vw, 32px);
+    padding: 0;
+
+    list-style: none;
+}
+
+.cc-about__item {
+    min-width: 0;
+    padding: 2px clamp(16px, 2.6vw, 46px);
+
+    border-left: 1px solid rgba(17, 17, 17, 0.16);
+}
+
+.cc-about__item:first-child {
+    padding-left: 0;
+
+    border-left: 0;
+}
+
+.cc-about__item:last-child {
+    padding-right: 0;
+}
+
+.cc-about__item-no {
+    display: block;
+
+    font-size: clamp(11px, 0.85vw, 15px);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.cc-about__item-title {
+    margin: clamp(6px, 0.5vw, 10px) 0 clamp(6px, 0.6vw, 12px);
+
+    font-size: clamp(16px, 1.3vw, 24px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+
+    transition: transform 0.4s var(--about-ease);
+}
+
+.cc-about__item-text {
+    max-width: 21ch;
+    margin: 0;
+
+    font-size: clamp(13px, 0.9vw, 16px);
+    line-height: 1.5;
+
+    color: var(--about-muted);
+
+    transition: color 0.4s ease;
+}
+
+@media (hover: hover) {
+    .cc-about__item:hover .cc-about__item-title {
+        transform: translateX(4px);
+    }
+
+    .cc-about__item:hover .cc-about__item-text {
+        color: var(--about-ink);
+    }
+}
+
+
+/* ================= ORBITAL VISUAL (OrbitalOrb.jsx) ================= */
+
+.cc-orb {
+    position: relative;
+
+    width: min(100%, 680px);
+    aspect-ratio: 1 / 1;
+
+    container-type: inline-size;
+}
+
+/* concentric background rings - very faint, fade out towards the edge */
+.cc-orb__halo {
+    position: absolute;
+    inset: -25%;
+
+    width: 150%;
+    height: 150%;
+
+    fill: none;
+    pointer-events: none;
+
+    -webkit-mask-image: radial-gradient(closest-side, #000 52%, rgba(0, 0, 0, 0.35) 80%, transparent 100%);
+    mask-image: radial-gradient(closest-side, #000 52%, rgba(0, 0, 0, 0.35) 80%, transparent 100%);
+}
+
+.cc-orb__halo circle {
+    stroke: rgba(17, 17, 17, 0.075);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+}
+
+/* soft ground shadow under the floating sphere */
+.cc-orb__shadow {
+    position: absolute;
+    left: 31%;
+    top: 85.5%;
+
+    width: 38%;
+    height: 6%;
+
+    border-radius: 50%;
+
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0) 70%);
+    filter: blur(5px);
+
+    animation: cc-orb-shadow 7s ease-in-out infinite;
+}
+
+/* sphere + both canvases float together */
+.cc-orb__float {
+    position: absolute;
+    inset: 0;
+
+    animation: cc-orb-float 7s ease-in-out infinite;
+}
+
+.cc-orb__canvas {
+    position: absolute;
+    inset: 0;
+
+    display: block;
+    width: 100%;
+    height: 100%;
+
+    pointer-events: none;
+}
+
+.cc-orb__sphere {
+    position: absolute;
+    left: 24%;
+    top: 24%;
+
+    width: 52%;
+    height: 52%;
+
+    border-radius: 50%;
+
+    /* light comes from the upper left; --orb-light-x/y (set by OrbitalOrb.jsx) lean it towards the pointer */
+    background: radial-gradient(
+        circle at calc(34% + var(--orb-light-x, 0%)) calc(26% + var(--orb-light-y, 0%)),
+        #ffffff 0%,
+        #f7f7f7 22%,
+        #e7e7e7 52%,
+        #d0d0d0 82%,
+        #bcbcbc 100%
+    );
+    box-shadow:
+        inset -14px -22px 40px rgba(0, 0, 0, 0.1),
+        inset 8px 12px 24px rgba(255, 255, 255, 0.85);
+    box-shadow:
+        inset -2.2cqw -3.2cqw 5.6cqw rgba(0, 0, 0, 0.1),
+        inset 1.2cqw 1.8cqw 3.4cqw rgba(255, 255, 255, 0.85);
+}
+
+/* the existing "CC" mark: same text and weight as before, now black on the sphere */
+.cc-orb__logo {
+    position: absolute;
+    inset: 0;
+
+    display: grid;
+    place-items: center;
+
+    font-size: 44px;
+    font-size: clamp(30px, 8.6cqw, 64px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1;
+
+    color: var(--about-ink, #111);
+
+    user-select: none;
+}
+
+@keyframes cc-orb-float {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-1.8%);
+    }
+}
+
+@keyframes cc-orb-shadow {
+    0%,
+    100% {
+        transform: scaleX(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scaleX(0.92);
+        opacity: 0.72;
+    }
+}
+
+
+/* ================= TABLET / MOBILE ================= */
+
+@media (max-width: 960px) {
+    .cc-about {
+        padding-top: 96px;
+    }
+
+    .cc-about__grid {
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: clamp(40px, 8vw, 72px);
+    }
+
+    .cc-about__title {
+        margin-left: 0;
+
+        font-size: clamp(48px, 13vw, 120px);
+    }
+
+    .cc-about__description,
+    .cc-about__strip {
+        margin-left: 0;
+    }
+
+    .cc-about__description {
+        font-size: clamp(16px, 2.4vw, 20px);
+    }
+
+    .cc-orb {
+        width: min(100%, 520px);
+    }
+}
+
+@media (max-width: 640px) {
+    .cc-about__top {
+        gap: 12px;
+    }
+
+    .cc-about__strip {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cc-about__item,
+    .cc-about__item:first-child,
+    .cc-about__item:last-child {
+        padding: 18px 0;
+
+        border-left: 0;
+        border-top: 1px solid rgba(17, 17, 17, 0.14);
+    }
+
+    .cc-about__item-text {
+        max-width: 34ch;
+
+        font-size: 14px;
+    }
+
+    .cc-about__item-title {
+        font-size: 18px;
+    }
+}
+
+
+/* ================= REDUCED MOTION ================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .cc-orb__float,
+    .cc-orb__shadow {
+        animation: none;
+    }
+
+    .cc-about__build {
+        transition-duration: 0.01ms;
+    }
+
+    .cc-about__item-title,
+    .cc-about__item-text {
+        transition: none;
+    }
+
+    .cc-about__item:hover .cc-about__item-title {
+        transform: none;
+    }
+}
