@@ -20,11 +20,11 @@ const FEATURE_CARDS = [
 
 // Each captcha digit: position, outline colour and tilt (copied from the original SVG)
 const CAPTCHA_GLYPHS = [
-  { x: 30, y: 48, stroke: '#e3b93e', rotate: -6 },
-  { x: 68, y: 46, stroke: '#e21fb5', rotate: 8 },
-  { x: 106, y: 47, stroke: '#3bff57', rotate: -4 },
-  { x: 136, y: 46, stroke: '#7ce03a', rotate: 5 },
-  { x: 164, y: 48, stroke: '#e2806e', rotate: -7 },
+  { x: 30, y: 48, rotate: -6 },
+  { x: 68, y: 46, rotate: 8 },
+  { x: 106, y: 47, rotate: -4 },
+  { x: 136, y: 46, rotate: 5 },
+  { x: 164, y: 48, rotate: -7 },
 ];
 
 /**
@@ -154,16 +154,16 @@ const handleRegister = (event) => {
               <span className="field__label" id="captcha-label">CAPTCHA</span>
               <div className="captcha">
                 <svg className="captcha__image" viewBox="0 0 188 64" role="img" aria-label="Captcha code" id="captcha-svg">
-                  <rect x="0.5" y="0.5" width="187" height="63" rx="10" fill="#f1f1ec" stroke="#e1e1d9" />
-                  <g fontFamily="Georgia, serif" fontSize="40" fontWeight="700" fill="none" strokeWidth="1.3" textAnchor="middle">
+                  <rect x="0.5" y="0.5" width="187" height="63" rx="8" fill="#1c1c1c" stroke="#2e2e2e" />
+                  <g fontFamily="'JetBrains Mono', ui-monospace, monospace" fontSize="32" fontWeight="700" fill="#f4f4f2" textAnchor="middle">
                     {CAPTCHA_GLYPHS.map((g, i) => (
-                      <text key={i} x={g.x} y={g.y} stroke={g.stroke} transform={`rotate(${g.rotate} ${g.x} 38)`}>
+                      <text key={i} x={g.x} y={g.y} transform={`rotate(${g.rotate} ${g.x} 38)`}>
                         {digits[i]}
                       </text>
                     ))}
                   </g>
-                  <path d="M12 26 C 50 16, 90 40, 128 22 S 170 36, 176 40" stroke="#4a90d9" strokeWidth="1.6" fill="none" />
-                  <path d="M10 42 C 60 24, 120 30, 182 56" stroke="#d6457f" strokeWidth="1.6" fill="none" />
+                  <path d="M12 26 C 50 16, 90 40, 128 22 S 170 36, 176 40" stroke="#5a5a5a" strokeWidth="1.2" fill="none" />
+                  <path d="M10 42 C 60 24, 120 30, 182 56" stroke="#3f3f3f" strokeWidth="1.2" fill="none" />
                 </svg>
                 <button className="captcha__new" type="button" id="captcha-new" onClick={newCaptcha}>
                   <span aria-hidden="true">↻</span> NEW

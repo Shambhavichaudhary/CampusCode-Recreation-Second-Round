@@ -6,8 +6,35 @@
 ===================================================== */
 
 
+/* Fit the complete Login page in one desktop/laptop viewport (incl. 1366×768) */
+.auth-shell.login-layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-shell.login-layout .site-header {
+    height: 54px;
+    padding: 4px 14px;
+}
+
+.auth-shell.login-layout .main-layout {
+    flex: 1 1 auto;
+    align-items: center;
+}
+
+.auth-shell.login-layout .hero__title,
 .login-hero__title {
-    margin-top: 46px;
+    margin-top: clamp(12px, 2.6vh, 36px);
+}
+
+.auth-shell.login-layout .site-footer {
+    margin-top: 4px;
+    padding: 0 clamp(20px, 5vw, 95px) 10px;
+}
+
+.login-hero__title {
+    margin-top: clamp(12px, 2.6vh, 36px);
 }
 
 .login-hero__accent {
@@ -21,31 +48,36 @@
 }
 
 .login-feature-cards .feature-card {
-    min-height: 103px;
-    padding: 18px 16px;
+    flex-basis: 186px;
+    min-height: 128px;
 }
 
-.login-feature-cards .feature-card__title {
-    margin-top: 28px;
-    font-size: 17px;
+.login-card {
+    width: 460px;
+    padding: 12px 14px 6px;
 }
-
 
 .login-card .register-card__head {
-    margin-bottom: 24px;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+}
+
+.login-card .register-card__title {
+    font-size: 30px;
+    margin-top: 4px;
 }
 
 .login-form .field {
-    margin-bottom: 13px;
+    margin-bottom: 6px;
 }
 
 .login-form .field__control {
-    height: 61px;
+    height: 42px;
     margin-bottom: 0;
 }
 
 .login-form .field__label {
-    margin-bottom: 8px;
+    margin-bottom: 4px;
 }
 
 .login-form .field__icon {
@@ -57,20 +89,10 @@
     font-size: 15px;
 }
 
-.login-form .show-btn {
-    height: 30px;
-    gap: 8px;
-    margin-right: 12px;
-    padding: 8px 10px;
-    background: transparent;
-    border: 0;
-    color: #777;
-    font-size: 9px;
-}
-
-.login-form .show-btn__ring {
-    width: 5px;
-    height: 5px;
+.login-form .auth-eye-btn {
+    width: 32px;
+    height: 32px;
+    margin-right: 8px;
 }
 
 .login-captcha-field {
@@ -83,13 +105,12 @@
 }
 
 .login-captcha-image {
-    width: 169px;
-    height: 59px;
+    width: 148px;
+    height: 44px;
 }
 
 .login-captcha-field .captcha__new {
     font-size: 10px;
-    color: #888;
 }
 
 .login-captcha-input .field__input {
@@ -100,8 +121,8 @@
     position: relative;
     display: flex;
     align-items: center;
-    height: 73px;
-    margin: 23px 0 5px;
+    height: 56px;
+    margin: 10px 0 4px;
     padding: 9px 13px;
     border: 1px dashed #d9dccb;
     border-radius: 14px;
@@ -144,13 +165,15 @@
     margin-left: 8px;
     border-radius: 4px;
     background: var(--color-lime);
+    animation: login-ready-pulse 2.4s ease-in-out infinite;
 }
 
 .login-submit {
     width: 100%;
-    height: 65px;
-    margin: 5px 0 0;
+    height: 46px;
+    margin: 4px 0 0;
     padding: 3px 22px;
+    transition: transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.3s ease;
 }
 
 .login-submit .submit-btn__label {
@@ -165,7 +188,7 @@
 }
 
 .login-card__bottom {
-    padding: 20px 11px 2px;
+    padding: 8px 8px 0;
     font-family: var(--font-mono);
     font-size: 9px;
     letter-spacing: 0.08em;
@@ -184,7 +207,7 @@
 .login-security {
     position: relative;
     overflow: hidden;
-    min-height: 80px;
+    min-height: 56px;
 }
 
 /* Bus starting position */
@@ -202,11 +225,13 @@
 .login-security__bar {
     position: absolute;
     right: 12px;
-    top: 20px;
-    height: 42px;
+    top: 8px;
+    height: 36px;
     width: 5px;
     background: var(--color-lime);
     border-radius: 5px;
+    transform-origin: center;
+    animation: login-ready-pulse 2.4s ease-in-out infinite;
 }
 
 /* Status text */
@@ -227,6 +252,15 @@
     animation: busRide 2s cubic-bezier(0.45, 0, 0.55, 1) forwards;
 }
 
+.login-security.is-riding .login-security__bar {
+    animation: none;
+}
+
+@keyframes login-ready-pulse {
+    0%, 100% { opacity: 0.55; transform: scaleY(0.92); }
+    50% { opacity: 1; transform: scaleY(1); }
+}
+
 @keyframes busRide {
     0% {
         left: 10px;
@@ -245,16 +279,37 @@
 }
 
 
-@media (max-width: 600px) {
+@media (min-height: 900px) {
     .login-form .field__control {
-        height: 52px;
-    }
-
-    .login-security {
-        margin-top: 18px;
+        height: 48px;
     }
 
     .login-submit {
-        height: 56px;
+        height: 52px;
+    }
+}
+
+@media (max-width: 600px) {
+    .login-form .field__control {
+        height: 48px;
+    }
+
+    .login-security {
+        margin-top: 14px;
+    }
+
+    .login-submit {
+        height: 48px;
+    }
+
+    .auth-shell.login-layout {
+        min-height: 0;
+        display: block;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .login-security__bar {
+        animation: none;
     }
 }

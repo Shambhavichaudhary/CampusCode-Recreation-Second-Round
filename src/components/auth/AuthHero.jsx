@@ -19,6 +19,13 @@ export default function AuthHero({
 }) {
   return (
     <section className="hero" aria-labelledby="hero-title">
+      <div className="auth-particles" aria-hidden="true">
+        <span className="auth-particle auth-particle--ink"></span>
+        <span className="auth-particle auth-particle--purple"></span>
+        <span className="auth-particle auth-particle--green"></span>
+        <span className="auth-particle auth-particle--ink auth-particle--sm"></span>
+        <span className="auth-particle auth-particle--purple auth-particle--sm"></span>
+      </div>
       <p className="hero__status"><span className="dot dot--lime"></span>{status}</p>
       <p className="hero__steps"><span>{step[0]}</span><span>{step[1]}</span></p>
 
@@ -31,18 +38,28 @@ export default function AuthHero({
 
       <p className="hero__text">{text}</p>
 
-      <ul className={`feature-cards ${cardsClass}`.trim()}>
-        {cards.map((card) => (
-          <li className="feature-card" key={card.title}>
-            <div className="feature-card__meta">
-              {card.meta.map((m) => <span key={m}>{m}</span>)}
-            </div>
-            <h2 className="feature-card__title">{card.title}</h2>
-            {card.text && <p className="feature-card__text">{card.text}</p>}
-            {card.line && <span className="feature-card__line" aria-hidden="true"></span>}
-          </li>
-        ))}
-      </ul>
+      <div className={`feature-cards-wrap ${cardsClass}`.trim()}>
+        <svg className="feature-cards__connectors" viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true">
+          <path className="feature-cards__path feature-cards__path--a"
+            d="M78 70 C 118 18, 158 16, 198 58" fill="none" />
+          <path className="feature-cards__path feature-cards__path--b"
+            d="M202 58 C 242 108, 278 110, 318 70" fill="none" />
+          <circle className="feature-cards__node feature-cards__node--a" cx="78" cy="70" r="3.2" />
+          <circle className="feature-cards__node feature-cards__node--b" cx="198" cy="58" r="3.2" />
+          <circle className="feature-cards__node feature-cards__node--c" cx="202" cy="58" r="3.2" />
+          <circle className="feature-cards__node feature-cards__node--d" cx="318" cy="70" r="3.2" />
+        </svg>
+        <ul className="feature-cards">
+          {cards.map((card, index) => (
+            <li className={`feature-card feature-card--${index + 1}`} key={card.title}>
+              <span className="feature-card__num">{card.meta[0]}</span>
+              {card.meta[1] && <span className="feature-card__tag">{card.meta[1]}</span>}
+              <h2 className="feature-card__title">{card.title}</h2>
+              {card.text && <p className="feature-card__text">{card.text}</p>}
+            </li>
+          ))}
+        </ul>
+      </div>
 
       <div className="hero__footer">
         <span className="hero__footer-status"><span className="dot dot--lime"></span>{footerStatus}</span>

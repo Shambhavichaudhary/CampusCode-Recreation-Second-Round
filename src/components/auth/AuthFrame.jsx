@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import BrandLogo from '../common/BrandLogo.jsx';
+import AuthOrbs from './AuthOrbs.jsx';
 
 /**
  * AuthFrame - the page "shell" shared by Register and Login:
@@ -13,7 +14,7 @@ import BrandLogo from '../common/BrandLogo.jsx';
  */
 export default function AuthFrame({ mainClassName = '', children }) {
   return (
-    <>
+    <div className={`auth-shell ${mainClassName}`.trim()}>
       {/* Decorative dots - the grid and glows are drawn by CSS (body::before / ::after) */}
       <div className="bg-dots" aria-hidden="true">
         <span className="bg-dot bg-dot--1"></span>
@@ -23,6 +24,7 @@ export default function AuthFrame({ mainClassName = '', children }) {
         <span className="bg-dot bg-dot--5"></span>
         <span className="bg-dot bg-dot--6"></span>
       </div>
+      <AuthOrbs />
 
       <header className="site-header">
         {/* Dashboard header symbol (replaces the old SVG logo of these pages) */}
@@ -40,6 +42,6 @@ export default function AuthFrame({ mainClassName = '', children }) {
         <span>LEARN · BUILD · COMPETE · SHIP</span>
         <span className="site-footer__status">ALL SYSTEMS OPERATIONAL</span>
       </footer>
-    </>
+    </div>
   );
 }

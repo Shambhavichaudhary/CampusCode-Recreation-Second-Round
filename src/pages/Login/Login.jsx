@@ -17,14 +17,29 @@ const FEATURE_CARDS = [
   { meta: ['03'], title: 'SHIP' },
 ];
 
-// Captcha digits drawn in the SVG: [x, y, stroke colour, tilt, digit]
-const CAPTCHA_GLYPHS = [
-  { x: 30, y: 48, stroke: '#35c9bd', rotate: -6, digit: '1' },
-  { x: 66, y: 46, stroke: '#e21fb5', rotate: 8, digit: '3' },
-  { x: 102, y: 47, stroke: '#d6457f', rotate: -4, digit: '8' },
-  { x: 138, y: 46, stroke: '#7c55ef', rotate: 5, digit: '1' },
-  { x: 166, y: 48, stroke: '#35c9bd', rotate: -7, digit: '3' },
+const CAPTCHA_LAYOUT = [
+  { x: 30, y: 48, rotate: -6 },
+  { x: 66, y: 46, rotate: 8 },
+  { x: 102, y: 47, rotate: -4 },
+  { x: 138, y: 46, rotate: 5 },
+  { x: 166, y: 48, rotate: -7 },
 ];
+
+function randomCaptchaDigits(avoid = '') {
+  let digits;
+  do {
+    digits = Array.from({ length: 5 }, () => String(Math.floor(Math.random() * 10)));
+  } while (digits.join('') === avoid);
+  return digits;
+}
+
+function captchaGlyphs(digits) {
+  return CAPTCHA_LAYOUT.map((layout, i) => ({
+    ...layout,
+    rotate: layout.rotate + (Math.random() * 8 - 4),
+    digit: digits[i],
+  }));
+}
 
 /**
  * Login page (route "/login") - original Login/index.html.
@@ -40,8 +55,21 @@ export default function Login() {
   // isRiding  -> true while the bus drives across the security box (adds .is-riding, see login.css)
   // hasNavigated -> makes sure we leave the page exactly once
   const [isRiding, setIsRiding] = useState(false);
+  const [captcha, setCaptcha] = useState(() => {
+    const digits = randomCaptchaDigits();
+    return { digits, marks: captchaGlyphs(digits) };
+  });
   const hasNavigated = useRef(false);
   const fallbackTimer = useRef(null);
+
+  const captchaCode = captcha.digits.join('');
+
+  const refreshCaptcha = () => {
+    const next = randomCaptchaDigits(captchaCode);
+    setCaptcha({ digits: next, marks: captchaGlyphs(next) });
+    const input = document.getElementById('captcha-code');
+    if (input) input.value = '';
+  };
 
   // Go to the dashboard - called only AFTER the bus has reached the finish line.
   const goToDashboard = () => {
@@ -66,7 +94,7 @@ const handleLogin = (event) => {
   const password = form.get('password');
   const captcha = form.get('captcha');
 
-  if (captcha?.trim() !== '13813') {
+  if (captcha?.trim() !== captchaCode) {
     alert('Incorrect CAPTCHA!');
     return;
   }
@@ -123,19 +151,21 @@ const handleLogin = (event) => {
             <div className="field login-captcha-field">
               <span className="field__label" id="captcha-label">CAPTCHA</span>
               <div className="captcha">
-                <svg className="captcha__image login-captcha-image" viewBox="0 0 188 64" role="img" aria-label="Captcha code 13813">
-                  <rect x="0.5" y="0.5" width="187" height="63" rx="10" fill="#f1f1ec" stroke="#333" />
-                  <g fontFamily="Georgia,serif" fontSize="40" fontWeight="700" fill="none" strokeWidth="1.3" textAnchor="middle">
-                    {CAPTCHA_GLYPHS.map((g) => (
-                      <text key={g.x} x={g.x} y={g.y} stroke={g.stroke} transform={`rotate(${g.rotate} ${g.x} 38)`}>
+                <svg className="captcha__image login-captcha-image" viewBox="0 0 188 64" role="img" aria-label={`Captcha code ${captchaCode}`}>
+                  <rect x="0.5" y="0.5" width="187" height="63" rx="8" fill="#1c1c1c" stroke="#2e2e2e" />
+                  <g fontFamily="'JetBrains Mono', ui-monospace, monospace" fontSize="32" fontWeight="700" fill="#f4f4f2" textAnchor="middle">
+                    {captcha.marks.map((g) => (
+                      <text key={g.x} x={g.x} y={g.y} transform={`rotate(${g.rotate} ${g.x} 38)`}>
                         {g.digit}
                       </text>
                     ))}
                   </g>
-                  <path d="M12 26 C50 16 90 40 128 22 S170 36 176 40" stroke="#84c721" strokeWidth="1.6" fill="none" />
-                  <path d="M10 42 C60 24 120 30 182 56" stroke="#7458f8" strokeWidth="1.6" fill="none" />
+                  <path d="M12 26 C50 16 90 40 128 22 S170 36 176 40" stroke="#5a5a5a" strokeWidth="1.2" fill="none" />
+                  <path d="M10 42 C60 24 120 30 182 56" stroke="#3f3f3f" strokeWidth="1.2" fill="none" />
                 </svg>
-                <button className="captcha__new" type="button" id="captcha-new"><span aria-hidden="true">↻</span> NEW</button>
+                <button className="captcha__new" type="button" id="captcha-new" onClick={refreshCaptcha}>
+                  <span aria-hidden="true">↻</span> NEW
+                </button>
               </div>
               <div className="field__control field__control--plain login-captcha-input">
                 <input className="field__input field__input--code" id="captcha-code" name="captcha" type="text"
