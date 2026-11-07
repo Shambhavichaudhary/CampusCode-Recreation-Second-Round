@@ -9,7 +9,7 @@
     --btx-ink: #000;
     --btx-text: #2b2b2b;
     --btx-muted: #7d7d7d;
-    --btx-purple: #5a1ccf;
+    --btx-purple: #230262;
 
     position: relative;
     isolation: isolate;
@@ -68,9 +68,9 @@
     padding: 0 0.1em;
     text-align: center;
     font-family: var(--font-main);
-    font-size: clamp(52px, 7.2vw, 132px);
-    font-weight: 900;
-    line-height: 0.86;
+    font-size: clamp(50px, 5.2vw, 132px);
+    font-weight: 850;
+    /* line-height: 0.86; */
     letter-spacing: -0.05em;
 }
 

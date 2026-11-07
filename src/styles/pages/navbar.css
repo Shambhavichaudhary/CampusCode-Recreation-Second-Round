@@ -17,10 +17,10 @@
     --cc-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
     --cc-pill-h: 60px;
 
-    /* Floats above the page. Sticky keeps it reachable while scrolling;
-       the matching scroll-padding-top (90px) already exists in landing.css. */
-    position: sticky;
-    top: 0;
+    /* Sits at the top of the page and scrolls away with it (not sticky/fixed).
+       "relative" keeps the same spot in the layout and the z-index working
+       for the mobile menu panel. */
+    position: relative;
     z-index: 100;
 
     width: 100%;
@@ -93,7 +93,7 @@
     );
 
     -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
+    -webkit-mask-composite : xor;
     mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
 }
 

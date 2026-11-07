@@ -2004,6 +2004,40 @@ body {
 }
 
 
+/* ================= SHARED PILL BUTTON (landing only) =================
+   Hero + Join buttons reuse .btx-cta from build-together.css. That sheet defines
+   the colours on .btx, so we provide the same two values here. */
+
+.btx-cta--landing {
+    --btx-ink: #000;
+    --btx-purple: #5a1ccf;
+}
+
+.final-cta-action {
+    margin-top: 40px;
+}
+
+/* Phones: slimmer pill in the hero row so the subtitle keeps its width */
+@media (max-width: 560px) {
+    .hero-bottom .btx-cta--landing {
+        padding: 15px 22px;
+        gap: 10px;
+    }
+}
+
+
+/* ================= "PROJECT" COLOUR-REVEAL HOVER =================
+   Same effect as the hero's .title-outline:hover (fill turns #836ed7), eased. */
+
+.cta-outline--reveal {
+    transition: color 0.35s ease;
+}
+
+.cta-outline--reveal:hover {
+    color: #836ed7;
+}
+
+
 
 /* ================= FOOTER SECTION ================= */
 

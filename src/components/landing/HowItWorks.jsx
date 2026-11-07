@@ -278,11 +278,11 @@ export default function HowItWorks() {
         >
           <h2 className="cc-hiw__title" aria-label="How it works.">
             <motion.span className="cc-hiw__line" variants={rise(34)} aria-hidden="true">
-              HOW IT
+              HOW IT WORKS.
             </motion.span>
-            <motion.span className="cc-hiw__line cc-hiw__line--italic" variants={rise(34)} aria-hidden="true">
-              WORKS.
-            </motion.span>
+            {/* <motion.span className="cc-hiw__line cc-hiw__line--italic" variants={rise(34)} aria-hidden="true">
+              
+            </motion.span> */}
           </h2>
           <motion.p className="cc-hiw__sub" variants={rise(18, 0.3)}>
             From idea to impact — here’s your CampusCode journey.

@@ -59,8 +59,12 @@ export default function Hero() {
           who don't just have ideas.<br />
           They build them.
         </p>
-        <a href="#arena" className="hero-cta">
-          EXPLORE HACKATHONS <span>↗</span>
+        {/* Same pill button as "BUILD WITH CAMPUSCODE" (btx-cta in build-together.css) */}
+        <a href="#arena" className="btx-cta btx-cta--landing">
+          EXPLORE HACKATHONS
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 17L17 7M8 7h9v9" />
+          </svg>
         </a>
       </div>
     </section>
