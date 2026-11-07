@@ -7,6 +7,7 @@ import StudentDashboard from './pages/StudentDashboard/StudentDashboard.jsx';
 import Events from './pages/Events/Events.jsx';
 import MyEvents from './pages/MyEvents/MyEvents.jsx';
 import ProtectedRoute from './components/auth/ProtectedRoute.jsx';
+import StudentShell from './components/student/StudentShell.jsx';
 import CursorGlow from './components/motion/CursorGlow.jsx';
 /**
  * In the original site every page was its own HTML file and opened scrolled to the top.
@@ -35,6 +36,18 @@ const PAGE_FADE = {
 };
 
 /**
+ * Student Overview / Events / My Events share one shell. If the fade key is the
+ * full pathname, AnimatePresence mode="wait" unmounts that shell, waits for the
+ * fade-out, then mounts the next page — which is the blank beat between clicks.
+ * One key for the whole /student area keeps the sidebar mounted and swaps only
+ * the page content.
+ */
+function pageTransitionKey(pathname) {
+  if (pathname.startsWith('/student')) return '/student';
+  return pathname;
+}
+
+/**
  * App = the route table. One URL -> one page component.
  *   Original file                        ->  URL
  *   Dashboard/index.html (landing)       ->  /
@@ -55,15 +68,17 @@ export default function App() {
       <AnimatePresence mode="wait" onExitComplete={scrollToTop}>
         {/* key = pathname: a new URL means a new page, which triggers exit + enter.
             Routes gets the SAME location so the old page stays rendered while it fades out. */}
-        <motion.div className="page-transition" key={location.pathname} {...PAGE_FADE}>
+        <motion.div className="page-transition" key={pageTransitionKey(location.pathname)} {...PAGE_FADE}>
           <Routes location={location}>
             <Route path="/" element={<Dashboard />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route element={<ProtectedRoute />}>
-              <Route path="/student" element={<StudentDashboard />} />
-              <Route path="/student/events" element={<Events />} />
-              <Route path="/student/my-events" element={<MyEvents />} />
+              <Route element={<StudentShell />}>
+                <Route path="/student" element={<StudentDashboard />} />
+                <Route path="/student/events" element={<Events />} />
+                <Route path="/student/my-events" element={<MyEvents />} />
+              </Route>
             </Route>
           </Routes>
         </motion.div>
